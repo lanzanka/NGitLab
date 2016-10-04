@@ -1,167 +1,202 @@
-#tool "nuget:?package=NUnit.ConsoleRunner"
-#tool "nuget:?package=GitReleaseNotes"
-#tool "nuget:?package=GitVersion.CommandLine&prerelease"
-#tool "nuget:?package=OpenCover"
-#tool coveralls.net
-#tool coveralls.io
+// Install addins.
+#addin "nuget:https://www.nuget.org/api/v2?package=Newtonsoft.Json&version=9.0.1"
+#addin "nuget:https://www.nuget.org/api/v2?package=Cake.Coveralls&version=0.2.0"
 
-#addin Cake.Coveralls
+// Install tools.
+#tool "nuget:https://www.nuget.org/api/v2?package=GitReleaseNotes"
+#tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.2"
+#tool "nuget:https://www.nuget.org/api/v2?package=OpenCover&version=4.6.519"
+#tool "nuget:https://www.nuget.org/api/v2?package=ReportGenerator&version=2.4.5"
+#tool "nuget:https://www.nuget.org/api/v2?package=coveralls.io&version=1.3.4"
 
-var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Release");
+// Load other scripts.
+#load "./scripts/parameters.cake"
 
-string version = null;
-string nugetVersion = null;
-string preReleaseTag = null;
-string semVersion = null;
+//////////////////////////////////////////////////////////////////////
+// PARAMETERS
+//////////////////////////////////////////////////////////////////////
+BuildParameters parameters = BuildParameters.GetParameters(Context);
 
-Task("Version")
-    .Does(() =>
+//////////////////////////////////////////////////////////////////////
+// SETUP / TEARDOWN
+//////////////////////////////////////////////////////////////////////
+Setup(context =>
 {
-    GitVersion(new GitVersionSettings
+    parameters.Initialize(context);
+
+    if(parameters.IsRunningOnAppVeyor)
     {
-        UpdateAssemblyInfo = AppVeyor.IsRunningOnAppVeyor,
-        LogFilePath = "console",
-        OutputType = GitVersionOutput.BuildServer
-    });
+        //Update build version
+        AppVeyor.UpdateBuildVersion(parameters.Version.FullVersion);
+    }
 
-    GitVersion assertedVersions = GitVersion(new GitVersionSettings
-    {
-        OutputType = GitVersionOutput.Json
-    });
-
-    Information("New Version:" + assertedVersions.NuGetVersion);
-
-    version = assertedVersions.MajorMinorPatch;
-    nugetVersion = assertedVersions.NuGetVersion;
-    preReleaseTag = assertedVersions.PreReleaseTag;
-    semVersion = assertedVersions.LegacySemVerPadded;
+    Information("Building version {0} of NGitLab.", parameters.Version.FullVersion);
 });
 
-Task("NuGet-Package-Restore")
+Teardown(context =>
+{
+    // Executed AFTER the last task.
+    Information("Finished building version {0} of NGitLab.", parameters.Version.FullVersion);
+});
+
+//////////////////////////////////////////////////////////////////////
+// TASKS
+//////////////////////////////////////////////////////////////////////
+
+Task("Clean")
+	.Does(()=>
+{
+	CleanDirectories("./build");
+    CleanDirectories("**/bin");
+    CleanDirectories("**/obj");
+});
+
+Task("Patch-Project-Json")
+    .IsDependentOn("Clean")
+    .WithCriteria(() => parameters.IsRunningOnAppVeyor)
     .Does(() =>
 {
-    NuGetRestore("./NGitLab/NGitLab.sln");
+    var projects = GetFiles("./NGitLab/**/project.json");
+    foreach(var project in projects)
+    {
+        if(!parameters.Version.PatchProjectJson(project)) {
+            Warning("No version specified in {0}.", project.FullPath);
+        }
+    }
+});
+
+Task("Package-Restore")
+    .IsDependentOn("Clean")
+    .Does(() =>
+{
+    DotNetCoreRestore("./NGitLab/");
 });
 
 Task("Build")
-    .IsDependentOn("Version")
-    .IsDependentOn("NuGet-Package-Restore")
+    .IsDependentOn("Patch-Project-Json")
+    .IsDependentOn("Package-Restore")
     .Does(() =>
 {
-  var msBuildSettings = new MSBuildSettings()
-           .SetConfiguration(configuration)
-           .SetPlatformTarget(PlatformTarget.MSIL)
-           .WithProperty("Windows", "True")
-           .UseToolVersion(MSBuildToolVersion.VS2015)
-           .SetVerbosity(Verbosity.Minimal)
-           .SetNodeReuse(false)
-           .WithTarget("Rebuild");
-
-       if (BuildSystem.AppVeyor.IsRunningOnAppVeyor)
-       {
-           msBuildSettings = msBuildSettings
-               .WithProperty("GitVersion_NuGetVersion", nugetVersion)
-               .WithProperty("GitVersion_SemVer", semVersion)
-               .WithProperty("GitVersion_MajorMinorPatch", version)
-               .WithProperty("GitVersion_PreReleaseTag", preReleaseTag);
-       }
-       MSBuild("./NGitLab/NGitLab.sln", msBuildSettings);
+	var projects = GetFiles("./**/*.xproj");
+    foreach(var project in projects)
+    {
+        DotNetCoreBuild(project.GetDirectory().FullPath, new DotNetCoreBuildSettings {
+            Configuration = parameters.Configuration
+        });
+    }
 });
 
 Task("Check-Build-Folder-Exists")
   .IsDependentOn("Build")
   .Does(() =>
-  {
-    EnsureDirectoryExists("./build");
-  });
+{
+	EnsureDirectoryExists("./build");
+});
 
-Task("Run-NUnit-Tests")
+Task("Run-Tests")
     .IsDependentOn("Check-Build-Folder-Exists")
-    .WithCriteria(() => !AppVeyor.IsRunningOnAppVeyor) // Skip tests because no GitLab Server is available at the moment.
     .Does(() =>
+{
+	var projects = GetFiles("./NGitLab/**/*.Tests.xproj");
+	foreach(var project in projects)
     {
-    var settings = new NUnit3Settings
+        Action<ICakeContext> testAction = tool => {
+				tool.DotNetCoreTest(project.GetDirectory().FullPath, new DotNetCoreTestSettings {
+					Configuration = parameters.Configuration,
+					NoBuild = true,
+					Verbose = false,
+					ArgumentCustomization = args =>
+						args.Append("-xml")
+                        .Append("./build/" + project.GetFilenameWithoutExtension() + ".xml")
+                        .Append("-notrait \"Category=Integration\"")
+				});
+			};
+
+		if(IsRunningOnWindows())
+		{
+			OpenCover(testAction,
+				"./build/OpenCover.xml",
+				new OpenCoverSettings {
+					OldStyle = true,
+					ReturnTargetCodeOffset = 0
+				}
+					.WithFilter("+[*]* -[xunit.*]* -[*.Tests]* ")
+					.ExcludeByFile("*/*Designer.cs;*/*.g.cs;*/*.g.i.cs"));
+		}
+        else
+        {
+            testAction(Context);
+        }
+	}
+
+	// Generate the HTML version of the Code Coverage report if the XML file exists
+    if(FileExists("./build/OpenCover.xml"))
     {
-        Where = "cat != Server_Required",
-        ShadowCopy = false
-    };
-
-  	var testAssemblies = GetFiles("./**/bin/" + configuration + "/*.Tests.dll");
-
-    NUnit3(testAssemblies, settings);
-
-    OpenCover(tool => {
-      tool.NUnit3(testAssemblies, settings);
-      },
-      new FilePath("build/coverage.xml"),
-      new OpenCoverSettings()
-        .WithFilter("+[NGitLab]*")
-        .WithFilter("-[NGitLab.Tests]*"));
-
-    if (AppVeyor.IsRunningOnAppVeyor)
-    {
-        Information("Uploading test results");
-        AppVeyor.UploadTestResults("TestResult.xml", AppVeyorTestResultsType.NUnit3);
+        ReportGenerator("./build/OpenCover.xml", "./build/CoverageReport");
     }
 });
 
 Task("Create-Release-Notes")
-    .IsDependentOn("Run-NUnit-Tests")
+    .IsDependentOn("Run-Tests")
+    .WithCriteria(() => parameters.IsRunningOnWindows)
     .Does(() =>
 {
-    var releaseNotesExitCode = StartProcess(@"tools\GitReleaseNotes\tools\gitreleasenotes.exe",
+     var releaseNotesExitCode = StartProcess(@"tools\GitReleaseNotes\tools\gitreleasenotes.exe",
      new ProcessSettings
       {
-        Arguments = ". /o ./build/releasenotes.md /allTags"
+        Arguments = ". /o ./build/releasenotes.md"
       });
 
       if(!System.IO.File.Exists("./build/releasenotes.md"))
       {
           Information("Did not create release notes!!");
       }
-
-      //if (string.IsNullOrEmpty(System.IO.File.ReadAllText("./build/releasenotes.md")))
-          //System.IO.File.WriteAllText("./build/releasenotes.md", "No issues closed since last release");
-
-      //if (releaseNotesExitCode != 0) throw new Exception("Failed to generate release notes");
 });
 
 Task("Create-NuGet-Packages")
   .IsDependentOn("Create-Release-Notes")
   .Does(() =>
 {
-  NuGetPack("./NGitLab.nuspec", new NuGetPackSettings {
-        Version = semVersion,
-        OutputDirectory = "./build",
-        Symbols = false,
-        NoPackageAnalysis = true
+    DotNetCorePack("./NGitLab/src/NGitLab", new DotNetCorePackSettings {
+          Configuration = parameters.Configuration,
+          OutputDirectory = "./build",
+          NoBuild = true
     });
 });
 
 Task("Upload-Coverage-Report")
   .IsDependentOn("Create-NuGet-Packages")
-  .WithCriteria(() => AppVeyor.IsRunningOnAppVeyor)
+  .WithCriteria(() => FileExists("./build/OpenCover.xml"))
+  .WithCriteria(() => parameters.IsRunningOnAppVeyor)
   .Does(() =>
   {
     var coverallsToken = Argument<string>("coverallsToken");
-    CoverallsIo("./build/coverage.xml", new CoverallsIoSettings()
+    CoverallsIo("./build/OpenCover.xml", new CoverallsIoSettings()
     {
         RepoToken = coverallsToken
     });
   });
 
-Task("Upload-AppVeyor-Artifacts")
+Task("Zip-Files")
     .IsDependentOn("Upload-Coverage-Report")
-    .WithCriteria(() => AppVeyor.IsRunningOnAppVeyor)
     .Does(() =>
 {
-  AppVeyor.UploadArtifact("./build/coverage.xml");
+    // CodeCoverage
+    var codeCoverage = GetFiles("./build/CoverageReport/*");
+    Zip("./build/", "./build/CoverageReport.zip", codeCoverage);
+});
+
+Task("Upload-AppVeyor-Artifacts")
+    .IsDependentOn("Zip-Files")
+    .WithCriteria(() => parameters.IsRunningOnAppVeyor)
+    .Does(() =>
+{
+  AppVeyor.UploadArtifact("./build/CoverageReport.zip");
   AppVeyor.UploadArtifact("./build/releasenotes.md");
-  AppVeyor.UploadArtifact("./build/NGitLab." + nugetVersion +".nupkg");
+  AppVeyor.UploadArtifact("./build/NGitLab." + parameters.Version.FullVersion + ".nupkg");
 });
 
 Task("Default")
   .IsDependentOn("Upload-AppVeyor-Artifacts");
 
-RunTarget(target);
+RunTarget(parameters.Target);

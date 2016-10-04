@@ -1,9 +1,26 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGitLab", "NGitLab\NGitLab.csproj", "{EB69C6AD-64A6-4FE5-880C-38607A2430FB}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NGitLab", "src\NGitLab\NGitLab.xproj", "{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGitLab.Tests", "NGitLab.Tests\NGitLab.Tests.csproj", "{B1C9D8F6-22BC-4401-BD7B-E99C62A8E685}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NGitLab.Tests", "test\NGitLab.Tests\NGitLab.Tests.xproj", "{FD763D98-8B6B-44A0-99A0-869F04EE96B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F8247E06-1BBE-4D8F-897E-6206CD3B54BA}"
+	ProjectSection(SolutionItems) = preProject
+		..\build.cake = ..\build.cake
+		..\.github\CONTRIBUTING.md = ..\.github\CONTRIBUTING.md
+		global.json = global.json
+		..\.github\ISSUE_TEMPLATE.md = ..\.github\ISSUE_TEMPLATE.md
+		NGitLab.ruleset = NGitLab.ruleset
+		..\README.md = ..\README.md
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0DAF224B-CA74-4BE3-8668-6FE9F5FCB813}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A9CC2009-0258-412C-9716-BF28D35942B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,16 +28,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB69C6AD-64A6-4FE5-880C-38607A2430FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB69C6AD-64A6-4FE5-880C-38607A2430FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB69C6AD-64A6-4FE5-880C-38607A2430FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB69C6AD-64A6-4FE5-880C-38607A2430FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1C9D8F6-22BC-4401-BD7B-E99C62A8E685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1C9D8F6-22BC-4401-BD7B-E99C62A8E685}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1C9D8F6-22BC-4401-BD7B-E99C62A8E685}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1C9D8F6-22BC-4401-BD7B-E99C62A8E685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD763D98-8B6B-44A0-99A0-869F04EE96B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD763D98-8B6B-44A0-99A0-869F04EE96B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD763D98-8B6B-44A0-99A0-869F04EE96B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD763D98-8B6B-44A0-99A0-869F04EE96B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9F0350F9-A1DB-42D3-A5B3-E094AA49CE07} = {0DAF224B-CA74-4BE3-8668-6FE9F5FCB813}
+		{FD763D98-8B6B-44A0-99A0-869F04EE96B0} = {A9CC2009-0258-412C-9716-BF28D35942B4}
 	EndGlobalSection
 EndGlobal

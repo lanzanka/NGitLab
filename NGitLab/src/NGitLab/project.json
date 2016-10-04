@@ -1,0 +1,71 @@
+{
+  "version": "2.0.0-*",
+  "title": "NGitLab",
+  "description": "Provides a .NET REST client implementation of GitLab API.",
+  "language": "en-US",
+  "authors": [ "Franklin89" ],
+  "packOptions": {
+    "owners": [ "Franklin89" ],
+    "summary": "Provides a .NET REST client implementation of GitLab API.",
+    "tags": [ "GitLab API NGitlab" ],
+    "projectUrl": "https://github.com/Franklin89/NGitLab",
+    "licenseUrl": "https://github.com/Franklin89/NGitLab/blob/develop/LICENSE",
+    "iconUrl": "https://raw.githubusercontent.com/Franklin89/NGitLab/develop/docs/img/package_icon.png"
+  },
+  "buildOptions": {
+    "xmlDoc": true,
+    "additionalArguments": [
+      "/ruleset:../../NGitLab.ruleset",
+      "/additionalfile:../../stylecop.json"
+    ]
+  },
+  "configurations": {
+    "Release": {
+      "buildOptions": {
+        "warningsAsErrors": false
+      }
+    }
+  },
+  "frameworks": {
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Data": "4.0.0.0",
+        "System.Numerics": "4.0.0.0",
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.Xml": "4.0.0.0",
+        "System.Xml.Linq": "4.0.0.0",
+        "System.Net.Http": "4.0.0.0"
+      }
+    },
+    "netstandard1.5": {
+      "buildOptions": {
+        "define": [
+          "NETSTANDARD1_5"
+        ]
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.1",
+        "System.Reflection": "4.1.0",
+        "System.Runtime": "4.1.0",
+        "System.IO": "4.1.0",
+        "System.Net.Http": "4.1.0",
+        "System.Threading.Tasks": "4.0.11"
+      }
+    },
+    "netstandard1.6": {
+      "buildOptions": {
+        "define": [
+          "NETSTANDARD1_6"
+        ]
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    }
+  },
+  "dependencies": {
+    "Autofac": "4.1.1",
+    "Newtonsoft.Json": "9.0.1",
+    "StyleCop.Analyzers": "1.0.0"
+  }
+}
