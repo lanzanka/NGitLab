@@ -22,6 +22,8 @@ namespace NGitLab
 
         public ILabelClient Labels { get; private set; }
 
+        public IMembersClient Members { get; private set; }
+
         private static IContainer _container;
 
         public GitLabClient(string hostUrl, string privateToken = "")
@@ -44,6 +46,7 @@ namespace NGitLab
             builder.RegisterType<IssueClient>().As<IIssueClient>();
             builder.RegisterType<NamespaceClient>().As<INamespaceClient>();
             builder.RegisterType<LabelClient>().As<ILabelClient>();
+            builder.RegisterType<MembersClient>().As<IMembersClient>();
 
             builder.RegisterType<GitLabClient>().As<IGitLabClient>();
 
@@ -54,6 +57,7 @@ namespace NGitLab
             Issues = _container.Resolve<IIssueClient>();
             Groups = _container.Resolve<INamespaceClient>();
             Labels = _container.Resolve<ILabelClient>();
+            Members = _container.Resolve<IMembersClient>();
         }
 
         internal GitLabClient(string hostUrl, string privateToken, HttpClient client)
@@ -74,6 +78,7 @@ namespace NGitLab
             builder.RegisterType<IssueClient>().As<IIssueClient>();
             builder.RegisterType<NamespaceClient>().As<INamespaceClient>();
             builder.RegisterType<LabelClient>().As<ILabelClient>();
+            builder.RegisterType<MembersClient>().As<IMembersClient>();
 
             builder.RegisterType<GitLabClient>().As<IGitLabClient>();
 
@@ -84,6 +89,7 @@ namespace NGitLab
             Issues = _container.Resolve<IIssueClient>();
             Groups = _container.Resolve<INamespaceClient>();
             Labels = _container.Resolve<ILabelClient>();
+            Members = _container.Resolve<IMembersClient>();
         }
 
         /// <summary>
