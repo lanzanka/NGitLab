@@ -83,7 +83,11 @@ namespace NGitLab.Impl
             StringContent content;
             if (_data != null)
             {
-                content = new StringContent(JsonConvert.SerializeObject(_data));
+                content = new StringContent(JsonConvert.SerializeObject(_data, Formatting.None,
+                            new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             }
             else
