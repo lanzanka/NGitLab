@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
@@ -13,25 +13,24 @@ namespace NGitLab.Models
         Owner = 50
     }
 
-    [DataContract]
     public class Member
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int UserId { get; set; }
 
-        [DataMember(Name = "username")]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "state")]
+        [JsonProperty("state")]
         public string State { get; set; }
 
-        [DataMember(Name = "created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [DataMember(Name = "access_level")]
+        [JsonProperty("access_level")]
         public MemberAccessLevel AccessLevel { get; set; }
     }
 }

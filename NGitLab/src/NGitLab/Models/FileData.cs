@@ -1,25 +1,24 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class FileData
     {
-        [DataMember(Name = "file_name")]
+        [JsonProperty("file_name")]
         public string Name;
-        [DataMember(Name = "file_path")]
+        [JsonProperty("file_path")]
         public string Path;
-        [DataMember(Name = "size")]
+        [JsonProperty("size")]
         public int Size;
-        [DataMember(Name = "encoding")]
+        [JsonProperty("encoding")]
         public string Encoding;
-        [DataMember(Name = "content")]
+        [JsonProperty("content")]
         public string Content;
-        [DataMember(Name = "ref")]
+        [JsonProperty("ref")]
         public string Ref;
-        [DataMember(Name = "blob_id")]
+        [JsonProperty("blob_id")]
         public string BlobId;
-        [DataMember(Name = "commit_id")]
+        [JsonProperty("commit_id")]
         public string CommitId;
     }
 }

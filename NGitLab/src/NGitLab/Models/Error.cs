@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Error
     {
-        [DataMember(Name = "message")]
+        [JsonProperty("message")]
         public string Message;
     }
 }

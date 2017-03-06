@@ -1,11 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class MergeCommitMessage
     {
-        [DataMember(Name = "merge_commit_message")]
+        [JsonProperty("merge_commit_message")]
         public string Message;
     }
 }

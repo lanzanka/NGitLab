@@ -1,17 +1,16 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class FileDelete
     {
-        [DataMember(Name = "file_path")]
+        [JsonProperty("file_path")]
         public string Path;
         
-        [DataMember(Name = "branch_name")]
+        [JsonProperty("branch_name")]
         public string Branch;
         
-        [DataMember(Name = "commit_message")]
+        [JsonProperty("commit_message")]
         public string CommitMessage;
     }
 }

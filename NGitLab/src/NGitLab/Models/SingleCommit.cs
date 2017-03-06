@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class SingleCommit : Commit
     {
-        [DataMember(Name = "committed_date")]
+        [JsonProperty("committed_date")]
         public DateTime CommittedDate;
 
-        [DataMember(Name = "authored_date")]
+        [JsonProperty("authored_date")]
         public DateTime AuthoredDate;
 
-        [DataMember(Name = "parent_ids")]
+        [JsonProperty("parent_ids")]
         public Sha1[] Parents;
     }
 }

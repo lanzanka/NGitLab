@@ -1,13 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Session : User
     {
         public new const string Url = "/session";
 
-        [DataMember(Name="private_token")]
+        [JsonProperty("private_token")]
         public string PrivateToken;
     }
 }

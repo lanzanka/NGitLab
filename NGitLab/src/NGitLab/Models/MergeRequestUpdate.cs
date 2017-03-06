@@ -1,23 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class MergeRequestUpdate
     {        
-        [DataMember(Name = "source_branch")]
+        [JsonProperty("source_branch")]
         public string SourceBranch;
 
-        [DataMember(Name = "target_branch")]
+        [JsonProperty("target_branch")]
         public string TargetBranch;
 
-        [DataMember(Name = "assignee_id")]
+        [JsonProperty("assignee_id")]
         public int? AssigneeId;
 
-        [DataMember(Name = "title")]
+        [JsonProperty("title")]
         public string Title;
 
-        [DataMember(Name = "state_event")]
+        [JsonProperty("state_event")]
         public string NewState; 
     }
 

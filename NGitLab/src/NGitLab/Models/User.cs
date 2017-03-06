@@ -1,71 +1,70 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class User
     {
         public const string Url = "/users";
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "username")]
+        [JsonProperty("username")]
         public string Username;
 
-        [DataMember(Name = "email")]
+        [JsonProperty("email")]
         public string Email;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "skype")]
+        [JsonProperty("skype")]
         public string Skype;
 
-        [DataMember(Name = "linkedin")]
+        [JsonProperty("linkedin")]
         public string Linkedin;
 
-        [DataMember(Name = "twitter")]
+        [JsonProperty("twitter")]
         public string Twitter;
 
-        [DataMember(Name = "provider")]
+        [JsonProperty("provider")]
         public string Provider;
 
-        [DataMember(Name = "state")]
+        [JsonProperty("state")]
         public string State;
 
-        [DataMember(Name = "blocked")]
+        [JsonProperty("blocked")]
         public bool Blocked;
 
-        [DataMember(Name="created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
 
-        [DataMember(Name="avatar_url")]
+        [JsonProperty("avatar_url")]
         public string AvatarURL;
 
-        [DataMember(Name = "bio")]
+        [JsonProperty("bio")]
         public string Bio;
 
-        [DataMember(Name = "color_scheme_id")]
+        [JsonProperty("color_scheme_id")]
         public int ColorSchemeId;
 
-        [DataMember(Name="theme_id")]
+        [JsonProperty("theme_id")]
         public int ThemeId;
 
-        [DataMember(Name="extern_uid")]
+        [JsonProperty("extern_uid")]
         public string ExternUid;
 
-        [DataMember(Name="website_url")]
+        [JsonProperty("website_url")]
         public string WebsiteURL;
 
-        [DataMember(Name="is_admin")]
+        [JsonProperty("is_admin")]
         public bool IsAdmin;
 
-        [DataMember(Name="can_create_group")]
+        [JsonProperty("can_create_group")]
         public bool CanCreateGroup;
 
-        [DataMember(Name="can_create_project")]
+        [JsonProperty("can_create_project")]
         public bool CanCreateProject;
     }
 }

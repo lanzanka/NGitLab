@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class BranchCreate
     {
-        [DataMember(Name = "branch_name")]
+        [JsonProperty("branch_name")]
         public string Name;
 
-        [DataMember(Name = "ref")]
+        [JsonProperty("ref")]
         public string Ref;
     }
 }

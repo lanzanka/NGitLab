@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class FileResponse
     {
-        [DataMember(Name = "file_name")]
+        [JsonProperty("file_name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "branch_name")]
+        [JsonProperty("branch_name")]
         public string Branch { get; set; }
     }
 }

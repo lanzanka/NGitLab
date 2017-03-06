@@ -1,28 +1,25 @@
-﻿
-using System.Runtime.Serialization;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class IssueCreate
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int ProjectId;
 
-        [DataMember(Name = "title")]
+        [JsonProperty("title")]
         public string Title;
 
-        [DataMember(Name = "description")]
+        [JsonProperty("description")]
         public string Description;
 
-        [DataMember(Name = "assignee_id")]
+        [JsonProperty("assignee_id")]
         public int? AssigneeId;
 
-        [DataMember(Name = "milestone_id")]
+        [JsonProperty("milestone_id")]
         public int? MileStoneId;
 
-        [DataMember(Name = "labels")]
+        [JsonProperty("labels")]
         public string Labels;
     }
 }

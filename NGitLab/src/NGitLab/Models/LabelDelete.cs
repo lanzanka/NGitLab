@@ -1,15 +1,13 @@
-﻿
-using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class LabelDelete
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
         
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
     }
 }

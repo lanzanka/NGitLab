@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Commit
     {
         public const string Url = "/commits";
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public Sha1 Id;
 
-        [DataMember(Name = "title")]
+        [JsonProperty("title")]
         public string Title;
 
-        [DataMember(Name = "short_id")]
+        [JsonProperty("short_id")]
         public string ShortId;
 
-        [DataMember(Name = "author_name")]
+        [JsonProperty("author_name")]
         public string AuthorName;
 
-        [DataMember(Name = "author_email")]
+        [JsonProperty("author_email")]
         public string AuthorEmail;
 
-        [DataMember(Name = "created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
 
-        [DataMember(Name = "message")]
+        [JsonProperty("message")]
         public string Message;
     }
 }

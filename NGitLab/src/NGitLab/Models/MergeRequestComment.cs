@@ -1,14 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class MergeRequestComment
     {
-        [DataMember(Name = "body")] 
+        [JsonProperty("body")] 
         public string Body;
 
-        [DataMember(Name = "author")]
+        [JsonProperty("author")]
         public User Author { get; set; }
     }
 }

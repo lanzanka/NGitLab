@@ -1,47 +1,46 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class UserUpsert
     {
-        [DataMember(Name = "email")]
+        [JsonProperty("email")]
         public string Email;
 
-        [DataMember(Name = "password")]
+        [JsonProperty("password")]
         public string Password;
 
-        [DataMember(Name = "username")]
+        [JsonProperty("username")]
         public string Username;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "skype")]
+        [JsonProperty("skype")]
         public string Skype;
 
-        [DataMember(Name = "linkedin")]
+        [JsonProperty("linkedin")]
         public string Linkedin;
 
-        [DataMember(Name = "twitter")]
+        [JsonProperty("twitter")]
         public string Twitter;
 
-        [DataMember(Name = "website_url")]
+        [JsonProperty("website_url")]
         public string WebsiteURL;
 
-        [DataMember(Name = "projects_limit")]
+        [JsonProperty("projects_limit")]
         public int ProjectsLimit;
 
-        [DataMember(Name = "provider")]
+        [JsonProperty("provider")]
         public string Provider;
 
-        [DataMember(Name = "bio")]
+        [JsonProperty("bio")]
         public string Bio;
 
-        [DataMember(Name = "admin")]
+        [JsonProperty("admin")]
         public bool IsAdmin;
 
-        [DataMember(Name = "can_create_group")]
+        [JsonProperty("can_create_group")]
         public bool CanCreateGroup;
     }
 }

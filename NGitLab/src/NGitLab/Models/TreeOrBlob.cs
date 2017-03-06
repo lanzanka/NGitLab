@@ -1,20 +1,19 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class TreeOrBlob
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public Sha1 Id;
 
-        [DataMember(Name = "assets")]
+        [JsonProperty("assets")]
         public string Name;
         
-        [DataMember(Name = "type")]
+        [JsonProperty("type")]
         public ObjectType Type;
         
-        [DataMember(Name = "mode")]
+        [JsonProperty("mode")]
         public string Mode;
     }
 }

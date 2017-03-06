@@ -1,59 +1,58 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Project
     {
         public const string Url = "/projects";
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "description")]
+        [JsonProperty("description")]
         public string Description;
 
-        [DataMember(Name = "default_branch")]
+        [JsonProperty("default_branch")]
         public string DefaultBranch;
 
-        [DataMember(Name = "owner")]
+        [JsonProperty("owner")]
         public User Owner;
 
-        [DataMember(Name = "public")]
+        [JsonProperty("public")]
         public bool Public;
 
-        [DataMember(Name = "path")]
+        [JsonProperty("path")]
         public string Path;
 
-        [DataMember(Name = "path_with_namespace")]
+        [JsonProperty("path_with_namespace")]
         public string PathWithNamespace;
 
-        [DataMember(Name = "issues_enabled")]
+        [JsonProperty("issues_enabled")]
         public bool IssuesEnabled;
 
-        [DataMember(Name = "merge_requests_enabled")]
+        [JsonProperty("merge_requests_enabled")]
         public bool MergeRequestsEnabled;
 
-        [DataMember(Name = "wall_enabled")]
+        [JsonProperty("wall_enabled")]
         public bool WallEnabled;
 
-        [DataMember(Name = "wiki_enabled")]
+        [JsonProperty("wiki_enabled")]
         public bool WikiEnabled;
 
-        [DataMember(Name = "created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
 
-        [DataMember(Name = "ssh_url_to_repo")]
+        [JsonProperty("ssh_url_to_repo")]
         public string SshUrl;
 
-        [DataMember(Name = "http_url_to_repo")]
+        [JsonProperty("http_url_to_repo")]
         public string HttpUrl;
 
-        [DataMember(Name = "namespace")]
+        [JsonProperty("namespace")]
         public Namespace Namespace;
     }
 }

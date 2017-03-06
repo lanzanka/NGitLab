@@ -1,23 +1,22 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class FileUpsert
     {
-        [DataMember(Name="file_path")]
+        [JsonProperty("file_path")]
         public string Path; 
         
-        [DataMember(Name="branch_name")]
+        [JsonProperty("branch_name")]
         public string Branch;
 
-        [DataMember(Name="encoding")]
+        [JsonProperty("encoding")]
         public string Encoding;
 
-        [DataMember(Name="content")]
+        [JsonProperty("content")]
         public string Content;
         
-        [DataMember(Name="commit_message")]
+        [JsonProperty("commit_message")]
         public string CommitMessage;
     }
 }

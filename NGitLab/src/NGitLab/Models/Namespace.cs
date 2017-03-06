@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Namespace
     {
         public const string Url = "/groups";
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "path")]
+        [JsonProperty("path")]
         public string Path;
 
-        [DataMember(Name = "description")]
+        [JsonProperty("description")]
         public string Description;
 
-        [DataMember(Name="created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
 
-        [DataMember(Name="updated_at")]
+        [JsonProperty("updated_at")]
         public DateTime UpdatedAt;
 
-        [DataMember(Name="owner_id")]
+        [JsonProperty("owner_id")]
         public int? OwnerId;
     }
 }

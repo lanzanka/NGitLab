@@ -1,65 +1,64 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class MergeRequest
     {
         public const string Url = "/merge_requests";
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "iid")]
+        [JsonProperty("iid")]
         public int Iid;
 
-        [DataMember(Name = "state")]
+        [JsonProperty("state")]
         public string State;
 
-        [DataMember(Name = "title")]
+        [JsonProperty("title")]
         public string Title;    
             
-        [DataMember(Name = "assignee")]
+        [JsonProperty("assignee")]
         public User Assignee;
 
-        [DataMember(Name = "author")]
+        [JsonProperty("author")]
         public User Author;
 
-        [DataMember(Name = "created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
 
-        [DataMember(Name = "description")]
+        [JsonProperty("description")]
         public string Description;
 
-        [DataMember(Name = "downvotes")]
+        [JsonProperty("downvotes")]
         public int Downvotes;
 
-        [DataMember(Name = "upvotes")]
+        [JsonProperty("upvotes")]
         public int Upvotes;
 
-        [DataMember(Name = "updated_at")]
+        [JsonProperty("updated_at")]
         public DateTime UpdatedAt;
 
-        [DataMember(Name="target_branch")]
+        [JsonProperty("target_branch")]
         public string TargetBranch;
 
-        [DataMember(Name="source_branch")]
+        [JsonProperty("source_branch")]
         public string SourceBranch;
 
-        [DataMember(Name="project_id")]
+        [JsonProperty("project_id")]
         public int ProjectId;
 
-        [DataMember(Name="source_project_id")]
+        [JsonProperty("source_project_id")]
         public int SourceProjectId;
 
-        [DataMember(Name = "target_project_id")]
+        [JsonProperty("target_project_id")]
         public int TargetProjectId;
 
-        [DataMember(Name = "work_in_progress")]
+        [JsonProperty("work_in_progress")]
         public bool? WorkInProgress;
 
-        [DataMember(Name = "labels")]
+        [JsonProperty("labels")]
         public string[] Labels;
     }
 }

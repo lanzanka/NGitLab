@@ -1,10 +1,8 @@
-﻿
-using System.Runtime.Serialization;
-
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
+
     public class LabelEdit
     {
         public LabelEdit() { }
@@ -15,16 +13,16 @@ namespace NGitLab.Models
             Name = label.Name;
         }
 
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "new_name")]
+        [JsonProperty("new_name")]
         public string NewName;
 
-        [DataMember(Name = "color")]
+        [JsonProperty("color")]
         public string Color;
     }
 }

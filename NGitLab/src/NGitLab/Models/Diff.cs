@@ -1,32 +1,31 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Diff
     {
-        [DataMember(Name = "diff")]
+        [JsonProperty("diff")]
         public string Difference;
 
-        [DataMember(Name = "new_path")]
+        [JsonProperty("new_path")]
         public string NewPath;
 
-        [DataMember(Name = "old_path")]
+        [JsonProperty("old_path")]
         public string OldPath;
 
-        [DataMember(Name = "a_mode")]
+        [JsonProperty("a_mode")]
         public string AMode;
 
-        [DataMember(Name = "b_mode")]
+        [JsonProperty("b_mode")]
         public string BMode;
 
-        [DataMember(Name = "new_file")]
+        [JsonProperty("new_file")]
         public bool IsNewFile;
 
-        [DataMember(Name = "renamed_file")]
+        [JsonProperty("renamed_file")]
         public bool IsRenamedFile;
 
-        [DataMember(Name = "deleted_file")]
+        [JsonProperty("deleted_file")]
         public bool IsDeletedFile;
     }
 }

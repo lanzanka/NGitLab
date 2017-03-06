@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace NGitLab.Models
 {
-    [DataContract]
     public class Assignee
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id;
 
-        [DataMember(Name = "username")]
+        [JsonProperty("username")]
         public string Username;
 
-        [DataMember(Name = "email")]
+        [JsonProperty("email")]
         public string Email;
 
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name;
 
-        [DataMember(Name = "state")]
+        [JsonProperty("state")]
         public string State;
 
-        [DataMember(Name = "created_at")]
+        [JsonProperty("created_at")]
         public DateTime CreatedAt;
     }
 }
