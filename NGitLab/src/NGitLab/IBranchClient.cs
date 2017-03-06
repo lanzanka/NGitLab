@@ -8,7 +8,7 @@ namespace NGitLab
     {
         Task<IEnumerable<Branch>> All();
 
-        Branch this[string name] { get; }
+        Task<Branch> this[string name] { get; }
 
         Task<Branch> ProtectAsync(string name);
 

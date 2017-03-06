@@ -17,7 +17,7 @@ namespace NGitLab.Impl
 
         public async Task<IEnumerable<Branch>> All() => await _httpRequestor.GetAll<Branch>(_repoPath + "/branches");
 
-        public Branch this[string name] => _httpRequestor.Get<Branch>(_repoPath + "/branches/" + name).Result;
+        public Task<Branch> this[string name] => _httpRequestor.Get<Branch>(_repoPath + "/branches/" + name);
 
         public async Task<Branch> ProtectAsync(string name) => await _httpRequestor.Put<Branch>(_repoPath + "/branches/" + name + "/protect");
 

@@ -35,5 +35,7 @@ namespace NGitLab.Impl
         public IBranchClient Branches => new BranchClient(_httpRequestor, _repoPath);
 
         public IProjectHooksClient ProjectHooks => new ProjectHooksClient(_httpRequestor, _projectPath);
+
+        public IBuildClient Builds => new BuildClient(_httpRequestor, _repoPath, _projectPath);
     }
 }
