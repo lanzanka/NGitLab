@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace NGitLab
 {
     /// <summary>
     /// Sha1 hash value representation.
     /// </summary>
+    [JsonConverter(typeof(Sha1TypeConverter))]
     public struct Sha1
     {
         private readonly ulong _p1; // 8
@@ -57,9 +60,9 @@ namespace NGitLab
 
         public override string ToString()
         {
-            return _p1.ToString("X16") +
-                   _p2.ToString("X16") +
-                   _p3.ToString("X8");
+            return _p1.ToString("X16").ToLowerInvariant() +
+                   _p2.ToString("X16").ToLowerInvariant() +
+                   _p3.ToString("X8").ToLowerInvariant();
         }
 
         private static ulong GetLong(string value, ref int i)
