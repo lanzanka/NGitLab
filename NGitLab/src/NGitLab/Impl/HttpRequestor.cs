@@ -13,6 +13,8 @@ namespace NGitLab.Impl
     public class HttpRequestor
     {
         private object _data;
+        private const string ApplicationJsonContentType = "application/json";
+        private const string PlainTextContentType = "text/plain";
 
         /// <summary>
         /// GitLab Host url as a string.
@@ -47,13 +49,13 @@ namespace NGitLab.Impl
             if (_data != null)
             {
                 content = new StringContent(JsonConvert.SerializeObject(_data));
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue(ApplicationJsonContentType);
             }
             else
             {
                 content = new StringContent(string.Empty);
             }
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue(ApplicationJsonContentType);
             var responseMessage = await Client.PutAsync(GetAPIUrl(tailApiUrl), content);
 
             if (!responseMessage.IsSuccessStatusCode)
@@ -88,7 +90,7 @@ namespace NGitLab.Impl
                             {
                                 NullValueHandling = NullValueHandling.Ignore
                             }));
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue(ApplicationJsonContentType);
             }
             else
             {
@@ -147,9 +149,16 @@ namespace NGitLab.Impl
                 throw new GitLabException(errorMessage);
             }
 
-            var reponse = await responseMessage.Content.ReadAsStringAsync();
+            var response = await responseMessage.Content.ReadAsStringAsync();
 
-            result = JsonConvert.DeserializeObject<T>(reponse);
+            if (responseMessage.Content.Headers.ContentType.MediaType == PlainTextContentType)
+            {
+                result = (T)Convert.ChangeType(response, typeof(T));
+            }
+            else
+            {
+                result = JsonConvert.DeserializeObject<T>(response);
+            }
 
             return result;
         }
