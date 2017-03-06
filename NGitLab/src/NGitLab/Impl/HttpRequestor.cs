@@ -14,7 +14,6 @@ namespace NGitLab.Impl
     {
         private object _data;
         private const string ApplicationJsonContentType = "application/json";
-        private const string PlainTextContentType = "text/plain";
 
         /// <summary>
         /// GitLab Host url as a string.
@@ -151,7 +150,7 @@ namespace NGitLab.Impl
 
             var response = await responseMessage.Content.ReadAsStringAsync();
 
-            if (responseMessage.Content.Headers.ContentType.MediaType == PlainTextContentType)
+            if (result is string)
             {
                 result = (T)Convert.ChangeType(response, typeof(T));
             }
