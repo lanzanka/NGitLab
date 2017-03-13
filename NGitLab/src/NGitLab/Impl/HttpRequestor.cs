@@ -150,7 +150,7 @@ namespace NGitLab.Impl
 
             var response = await responseMessage.Content.ReadAsStringAsync();
 
-            if (result is string)
+            if (typeof(T) == typeof(string))
             {
                 result = (T)Convert.ChangeType(response, typeof(T));
             }
